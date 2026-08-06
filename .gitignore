@@ -1,5 +1,6 @@
 data/raw/
 data/cleaned/
+docs/
 
 *.pyc
 __pycache__/
