@@ -22,6 +22,10 @@ CREATE TABLE schedule (
     station_no INT NOT NULL,
     station_code VARCHAR(10) NOT NULL,
     distance_from_origin DECIMAL(6.1),
+    arrival_day TINYINT,
+    arrival_time TIME,
+    departure_day TINYINT,
+    departure_time TIME,
     PRIMARY KEY (train_no, station_no),
     FOREIGN KEY (train_no) REFERENCES trains(train_no),
     FOREIGN KEY (station_code) REFERENCES stations(station_code)
