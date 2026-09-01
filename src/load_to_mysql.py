@@ -131,4 +131,4 @@ with engine.connect() as conn:
         ).scalar()
         print(f"{table}: {count} rows in MySQL")
 
-print("\nDone. delays row count in MySQL should match cleaned_v1.csv row count (262,256).")
+print(f"\nDone. delays row count in MySQL should match cleaned_v1.csv row count ({len(df):,}).")

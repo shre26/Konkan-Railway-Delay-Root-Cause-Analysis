@@ -4,14 +4,18 @@ EXCLUDED_STATIONS = ["KDV", "KARD", "NVRD", "KCVL", "BDMJ"]
 EXTREME_DELAY_THRESHOLD = 1000
 
 konkan_trains = pd.read_csv("data/reference/konkan_train_list.csv")["train_no"].tolist()
+konkan_stations = pd.read_csv("data/reference/konkan_station_list.csv")["station_code"].tolist()
 
 delay = pd.read_csv("data/raw/combined_delay.csv")
 schedule = pd.read_csv("data/raw/combined_schedule.csv")
 stations = pd.read_csv("data/raw/station_full_names.csv")
 trains = pd.read_csv("data/raw/train_details.csv").drop_duplicates(subset="train_no", keep="first")
 
-delay = delay[delay["train_no"].isin(konkan_trains)].copy()
-print("Konkan delay rows:", len(delay))
+delay = delay[
+    (delay["train_no"].isin(konkan_trains)) &
+    (delay["station_name"].isin(konkan_stations))
+].copy()
+print("Konkan delay rows (train & corridor filtered):", len(delay))
 
 print("\ndtypes:\n", delay.dtypes)
 print("\nnulls per column:\n", delay.isna().sum())
@@ -80,5 +84,7 @@ delay_clean = delay_clean.merge(coverage_tier, on="train_no", how="left")
 print("\nFinal shape:", delay_clean.shape)
 print(delay_clean.head())
 
+import os
+os.makedirs("data/cleaned", exist_ok=True)
 delay_clean.to_csv("data/cleaned/cleaned_v1.csv", index=False)
 print("Saved data/cleaned/cleaned_v1.csv")
