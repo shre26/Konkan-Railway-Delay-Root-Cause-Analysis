@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 import pandas as pd
 import streamlit as st
 
@@ -11,8 +11,12 @@ load_dotenv(PROJECT_ROOT / ".env")
 @st.cache_resource
 def get_engine():
     return create_engine(f"mysql+mysqlconnector://{os.getenv('MYSQL_USER')}:{os.getenv('MYSQL_PASSWORD')}"
-                         f"@{os.getenv('MYSQL_HOST')}/{os.getenv('MYSQL_DATABASE')}")
+    f"@{os.getenv('MYSQL_HOST')}/{os.getenv('MYSQL_DATABASE')}")
 
 @st.cache_data(ttl=3600)
 def run_query(query: str) -> pd.DataFrame:
     return pd.read_sql(query, get_engine())
+
+@st.cache_data(ttl=3600)
+def run_query_params(query: str, params: dict) -> pd.DataFrame:
+    return pd.read_sql(text(query), get_engine(), params=params)
