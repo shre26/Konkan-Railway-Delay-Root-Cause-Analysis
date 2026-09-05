@@ -11,19 +11,19 @@ st.info("Select a train or station to view delay statistics, monthly trends, " "
 def summary_cards(stats: pd.DataFrame):
     col1, col2, col3, col4 = st.columns(4)
     col1.metric(
-        "⏱️ Average Delay",
+        "Average Delay",
         f"{stats['avg_delay'].iloc[0]:.1f} min"
     )
     col2.metric(
-        "📊 Median Delay",
+        "Median Delay",
         f"{stats['median_delay'].iloc[0]:.1f} min"
     )
     col3.metric(
-        "⚠️ Maximum Delay",
+        "Maximum Delay",
         f"{stats['max_delay'].iloc[0]:.0f} min"
     )
     col4.metric(
-        "📁 Observations",
+        "Observations",
         f"{int(stats['n'].iloc[0]):,}"
     )
 
@@ -38,7 +38,7 @@ with tab_train:
     trains_df["label"] = (trains_df["train_no"].astype(str) + " - " + trains_df['train_name'])
 
     with st.container(border=True):
-        st.subheader("🚆 Select Train")
+        st.subheader("Select Train")
         selected_label = st.selectbox("Train", trains_df["label"], key="train_select", label_visibility="collapsed")
     row = trains_df.loc[trains_df["label"] == selected_label].iloc[0]
     selected_train = int(row["train_no"])
