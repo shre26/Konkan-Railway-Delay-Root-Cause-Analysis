@@ -2,7 +2,8 @@ import pandas as pd
 import streamlit as st
 from datetime import date
 from utils.db import run_query, run_query_params
-from utils.model import load_model, load_feature_columns, build_feature_vector
+from utils.model import load_model, load_feature_columns, build_feature_vector, explain_prediction
+from utils.model import load_shap_explainer
 
 st.set_page_config(page_title="Delay Predictor", page_icon="🔮", layout="wide")
 st.title("🔮 Delay Predictor")
@@ -95,6 +96,19 @@ if st.button("🔮 Predict Delay", type="primary", width="stretch"):
 
     predicted_delay = float(model.predict(X_input)[0])
     predicted_delay = max(predicted_delay, 0)
+
+    explainer = load_shap_explainer()
+    explanation = explain_prediction(explainer, X_input)
+
+    st.session_state["last_prediction"] = {
+        "explanation": explanation,
+        "predicted_delay": predicted_delay,
+        "train_no": selected_train,
+        "station_name": station_row["station_full_name"],
+        "station_code": station_row["station_code"],
+        "date": selected_date.strftime("%d %b %Y"),
+        "rain_category": rain_category,
+    }
 
     st.write("")
     with st.container(border=True):

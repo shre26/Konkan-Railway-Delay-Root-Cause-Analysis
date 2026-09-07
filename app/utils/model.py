@@ -1,4 +1,5 @@
 from pathlib import Path
+import shap
 import joblib
 import pandas as pd
 import streamlit as st
@@ -40,3 +41,12 @@ def build_feature_vector(feature_columns, *, station_no, month, is_monsoon, stat
             row[dummy_col] = 1
 
     return pd.DataFrame([row])[feature_columns]
+
+def explain_prediction(explainer, X_input):
+    shap_values = explainer.shap_values(X_input)
+    return shap.Explanation(
+        values=shap_values[0],
+        base_values=explainer.expected_value,
+        data=X_input.iloc[0],
+        feature_names=X_input.columns.tolist(),
+    )
