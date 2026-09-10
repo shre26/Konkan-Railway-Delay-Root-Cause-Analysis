@@ -283,4 +283,4 @@ with st.container(border=True):
             Rankings involving low-coverage trains should therefore be interpreted more cautiously than those based on trains with substantially more observations.
         """)
 
-        st.warning("Lower data coverage does not automatically mean a train is more or less delayed. It means the estimated average is based on fewer oobservations and may therefore be less stable.")
+        st.warning("Lower data coverage does not automatically mean a train is more or less delayed. It means the estimated average is based on fewer observations and may therefore be less stable.")
