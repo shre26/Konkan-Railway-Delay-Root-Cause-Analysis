@@ -1,6 +1,8 @@
-﻿# Konkan Railway Delay Root-Cause Analysis
+# Konkan Railway Delay Root-Cause Analysis
 
 Statistical analysis of station-wise train delays on the Konkan Railway corridor (Mumbai to Mangalore), covering one year of data from February 2025 to February 2026. Includes exploratory analysis, hypothesis testing, an XGBoost prediction model with SHAP explainability, and a multi-page Streamlit dashboard backed by a MySQL database.
+
+**Live app:** https://konkan-railway-delay-root-cause-analysis.streamlit.app/
 
 ## Project Structure
 
